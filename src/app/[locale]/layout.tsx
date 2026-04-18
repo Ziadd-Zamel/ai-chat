@@ -6,6 +6,7 @@ import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
+import Header from "@/components/layout/header";
 
 /** Arabic — Zain (Google Fonts) */
 const zain = Zain({
@@ -71,6 +72,7 @@ export default async function RootLayout({
       <body>
         <Providers>
           <main className="flex min-h-screen min-w-0 flex-col overflow-x-hidden">
+            <Header />
             {children}
           </main>
         </Providers>

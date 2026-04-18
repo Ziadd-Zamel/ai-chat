@@ -1,6 +1,73 @@
 {
-  "HomePage": {
-    "title": "مرحبا",
-    "description": "تم اعداد التطبيق لدعم تعدد اللغات."
+  "auth": {
+    "email-label": "البريد الإلكتروني",
+    "email-placeholder": "أدخل البريد الإلكتروني",
+    "password-label": "كلمة المرور",
+    "password-placeholder": "أدخل كلمة المرور",
+    "name-label": "الاسم",
+    "name-placeholder": "أدخل الاسم",
+    "confirm-password-label": "تأكيد كلمة المرور",
+    "confirm-password-placeholder": "أعد إدخال كلمة المرور",
+    "new-password-label": "كلمة المرور الجديدة",
+    "new-password-placeholder": "أدخل كلمة المرور الجديدة",
+    "code-label": "رمز التحقق",
+    "login-with-otp": "تسجيل الدخول برمز التحقق",
+    "forgot-password": "نسيت كلمة المرور؟",
+    "login-submit": "تسجيل الدخول",
+    "signup-submit": "إنشاء حساب",
+    "forgot-password-submit": "إرسال رابط الاسترداد",
+    "verify-code-submit": "تحقق من الرمز",
+    "reset-password-submit": "إعادة تعيين كلمة المرور",
+    "name-required": "الاسم مطلوب",
+    "name-min-length": "يجب أن يكون الاسم على الأقل حرفين",
+    "email-required": "البريد الإلكتروني مطلوب",
+    "email-invalid": "يرجى إدخال بريد إلكتروني صحيح",
+    "password-required": "كلمة المرور مطلوبة",
+    "password-min-length": "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
+    "confirm-password-required": "يرجى تأكيد كلمة المرور",
+    "passwords-do-not-match": "كلمتا المرور غير متطابقتين",
+    "code-required": "رمز التحقق مطلوب",
+    "code-length": "يجب أن يتكون الرمز من 6 أرقام بالضبط",
+    "code-digits-only": "يجب أن يحتوي الرمز على أرقام فقط",
+    "register-success": "تم إنشاء الحساب بنجاح",
+    "login-success": "تم تسجيل الدخول بنجاح",
+    "forgot-password-success": "تم إرسال رابط الاسترداد إلى بريدك الإلكتروني",
+    "verify-code-success": "تم التحقق من الرمز بنجاح",
+    "reset-password-success": "تم إعادة تعيين كلمة المرور بنجاح",
+    "login-title": "تسجيل الدخول",
+    "no-account": "ليس لديك حساب؟",
+    "create-account": "إنشاء حساب",
+    "forgot-password-title": "نسيت كلمة المرور",
+    "register-title": "إنشاء حساب",
+    "have-account": "لديك حساب بالفعل؟",
+    "login-link": "تسجيل الدخول",
+    "verify-code-title": "التحقق من الرمز",
+    "back-to-login-text": "تتذكر كلمة المرور؟",
+    "back-to-login-link": "العودة لتسجيل الدخول",
+    "reset-password-title": "إعادة تعيين كلمة المرور"
+  },
+  "header": {
+    "home": "الصفحة الرئيسية",
+    "apps": "التطبيقات",
+    "contact": "تواصل معنا",
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "languageSwitcherLabel": "اللغة"
+  },
+
+  "comingSoon": {
+    "badge": "قريباً",
+    "title-line1": "شيء كبير",
+    "title-line2": "في الطريق إليك.",
+    "description": "نعمل بجد لنقدم لك شيئاً مميزاً.",
+    "email-placeholder": "أدخل بريدك الإلكتروني",
+    "notify-btn": "أخبرني",
+    "footer": "© 2026 جميع الحقوق محفوظة."
+  },
+  "Metadata": {
+    "site-name": "اسم تطبيقك",
+    "home-title": "قريباً — اسم تطبيقك",
+    "home-description": "نعمل بجد لنقدم لك شيئاً مميزاً. ترقب إطلاقنا قريباً.",
+    "home-keywords": "قريباً, تطبيق, منصة, إطلاق"
   }
 }
