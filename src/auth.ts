@@ -8,7 +8,7 @@ interface AuthUser extends User {
   refreshToken: string;
 }
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const auth = NextAuth({
   providers: [
     Credentials({
       credentials: {
@@ -80,3 +80,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     strategy: "jwt",
   },
 });
+
+export const handlers = auth.handlers;
+export const signIn = auth.signIn;
+export const signOut = auth.signOut;
+export const authHandler = auth.auth;

@@ -15,7 +15,7 @@ export default function Navbar() {
   const isAuthRoute = pathname.includes("/auth");
 
   return (
-    <header className="w-full">
+    <header className="w-full bg-transparent">
       <div className="flex items-center justify-between px-6 py-4">
         {/* Nav links — start side */}
         <nav className="flex items-center gap-6">

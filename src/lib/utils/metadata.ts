@@ -1,89 +1,36 @@
 import type { Metadata, Viewport } from "next";
 import { getTranslations } from "next-intl/server";
 
-// Base URL for canonical and OG URLs
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://yourdomain.com";
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://www.tuwaiq-ia.com";
 
 export const viewport: Viewport = {
   themeColor: "#005F33",
-  colorScheme: "dark",
+  colorScheme: "light dark",
   width: "device-width",
   initialScale: 1,
 };
 
-// Generate metadata per locale
 export async function generateHomeMetadata(locale: string): Promise<Metadata> {
-  const t = await getTranslations({ locale, namespace: "Metadata" });
+  const t = await getTranslations({
+    locale,
+    namespace: "Metadata",
+  });
+
+  const isArabic = locale === "ar";
+
+  const title = t("home-title");
+  const description = t("home-description");
+  const keywords = t("home-keywords")
+    .split(",")
+    .map((k) => k.trim());
+
+  const canonical = isArabic ? `${baseUrl}/ar` : `${baseUrl}/en`;
 
   return {
-    // Title
-    title: {
-      default: t("home-title"),
-      template: `%s | ${t("site-name")}`,
-    },
+    title,
+    description,
+    keywords,
 
-    // Description
-    description: t("home-description"),
-
-    // Keywords
-    keywords: t("home-keywords")
-      .split(",")
-      .map((k) => k.trim()),
-
-    // Authors
-    authors: [{ name: t("site-name"), url: baseUrl }],
-
-    // Canonical
-    alternates: {
-      canonical: `${baseUrl}/${locale}`,
-      languages: {
-        en: `${baseUrl}/en`,
-        ar: `${baseUrl}/ar`,
-      },
-    },
-
-    // Open Graph
-    openGraph: {
-      type: "website",
-      url: `${baseUrl}/${locale}`,
-      siteName: t("site-name"),
-      title: t("home-title"),
-      description: t("home-description"),
-      locale: locale === "ar" ? "ar_SA" : "en_US",
-      alternateLocale: locale === "ar" ? "en_US" : "ar_SA",
-      images: [
-        {
-          url: `${baseUrl}/og-image.png`,
-          width: 1200,
-          height: 630,
-          alt: t("home-title"),
-        },
-      ],
-    },
-
-    // Twitter / X
-    twitter: {
-      card: "summary_large_image",
-      title: t("home-title"),
-      description: t("home-description"),
-      images: [`${baseUrl}/og-image.png`],
-    },
-
-    // Icons
-    icons: {
-      icon: [
-        { url: "/favicon.ico", sizes: "any" },
-        { url: "/icon.svg", type: "image/svg+xml" },
-        { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
-        { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
-      ],
-      apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
-    },
-
-    // Manifest
-    manifest: "/manifest.webmanifest",
-
-    // Robots
     robots: {
       index: true,
       follow: true,
@@ -92,12 +39,60 @@ export async function generateHomeMetadata(locale: string): Promise<Metadata> {
         follow: true,
         "max-image-preview": "large",
         "max-snippet": -1,
+        "max-video-preview": -1,
       },
     },
 
-    // Verification (fill in your own keys)
+    alternates: {
+      canonical,
+      languages: {
+        ar: `${baseUrl}/ar`,
+        en: `${baseUrl}/en`,
+        "x-default": baseUrl,
+      },
+    },
+
+    openGraph: {
+      locale: isArabic ? "ar_SA" : "en_US",
+      type: "website",
+      siteName: t("site-name"),
+      title,
+      description: isArabic
+        ? "منصة ذكاء اصطناعي للمحادثات الذكية وإنشاء الشات بوت للمواقع لخدمة العملاء والدعم والتفاعل مع الزوار."
+        : "AI platform for smart conversations and website chatbot creation for customer support and visitor engagement.",
+      url: canonical,
+      images: [
+        {
+          url: `${baseUrl}/og-image.jpg`,
+          width: 1200,
+          height: 630,
+          alt: "Tuwaiq Intelligent Assistant platform preview",
+        },
+      ],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: isArabic
+        ? "منصة ذكاء اصطناعي للمحادثات الذكية وإنشاء الشات بوت للمواقع لخدمة العملاء والدعم والتفاعل مع الزوار."
+        : "AI platform for smart conversations and website chatbot creation for customer support and visitor engagement.",
+      images: [`${baseUrl}/og-image.jpg`],
+    },
+
+    icons: {
+      icon: "/favicon.ico",
+      apple: "/apple-touch-icon.png",
+    },
+
+    manifest: "/manifest.webmanifest",
+
     verification: {
-      google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ?? "",
+      google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    },
+
+    other: {
+      "application-name": t("site-name"),
     },
   };
 }

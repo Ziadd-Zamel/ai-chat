@@ -1,6 +1,8 @@
 import ComingSoonPage from "@/components/common/coming-soon-page";
 import { generateHomeMetadata } from "@/lib/utils/metadata";
 import { Metadata } from "next";
+import SeoStructuredData from "./_components/seo-structured-data";
+import { getLocale } from "next-intl/server";
 
 // Generate metadata per locale
 export async function generateMetadata({
@@ -13,5 +15,11 @@ export async function generateMetadata({
 }
 
 export default async function Home() {
-  return <ComingSoonPage />;
+  const locale = await getLocale();
+  return (
+    <>
+      <SeoStructuredData locale={locale} />
+      <ComingSoonPage />
+    </>
+  );
 }
