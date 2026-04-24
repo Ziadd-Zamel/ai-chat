@@ -1,3 +1,4 @@
+import Header from "@/components/layout/header";
 import AuthLayout from "./_components/auth-layout";
 
 export default function Layout({

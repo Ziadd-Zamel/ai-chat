@@ -19,7 +19,11 @@ export const useSignupSchema = () => {
       password: z
         .string()
         .min(1, { message: t("password-required") })
-        .min(8, { message: t("password-min-length") }),
+        .min(8, { message: t("password-min-length") })
+        .regex(/[A-Z]/, { message: t("password-uppercase") })
+        .regex(/[a-z]/, { message: t("password-lowercase") })
+        .regex(/[0-9]/, { message: t("password-number") })
+        .regex(/[^A-Za-z0-9]/, { message: t("password-special") }),
 
       confirmPassword: z
         .string()
@@ -43,7 +47,14 @@ export const useLoginSchema = () => {
       .min(1, { message: t("email-required") })
       .email({ message: t("email-invalid") }),
 
-    password: z.string().min(1, { message: t("password-required") }),
+    password: z
+      .string()
+      .min(1, { message: t("password-required") })
+      .min(8, { message: t("password-min-length") })
+      .regex(/[A-Z]/, { message: t("password-uppercase") })
+      .regex(/[a-z]/, { message: t("password-lowercase") })
+      .regex(/[0-9]/, { message: t("password-number") })
+      .regex(/[^A-Za-z0-9]/, { message: t("password-special") }),
   });
 };
 
@@ -89,7 +100,11 @@ export const useResetPasswordSchema = () => {
       password: z
         .string()
         .min(1, { message: t("password-required") })
-        .min(8, { message: t("password-min-length") }),
+        .min(8, { message: t("password-min-length") })
+        .regex(/[A-Z]/, { message: t("password-uppercase") })
+        .regex(/[a-z]/, { message: t("password-lowercase") })
+        .regex(/[0-9]/, { message: t("password-number") })
+        .regex(/[^A-Za-z0-9]/, { message: t("password-special") }),
 
       confirmPassword: z
         .string()

@@ -3,6 +3,7 @@ import { generateHomeMetadata } from "@/lib/utils/metadata";
 import { Metadata } from "next";
 import SeoStructuredData from "./_components/seo-structured-data";
 import { getLocale } from "next-intl/server";
+import Header from "@/components/layout/header";
 
 // Generate metadata per locale
 export async function generateMetadata({
@@ -19,6 +20,7 @@ export default async function Home() {
   return (
     <>
       <SeoStructuredData locale={locale} />
+      <Header />
       <ComingSoonPage />
     </>
   );

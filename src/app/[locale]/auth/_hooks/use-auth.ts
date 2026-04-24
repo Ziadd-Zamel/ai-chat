@@ -5,10 +5,10 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import {
   forgotPasswordService,
-  loginService,
   registerService,
   resetPasswordService,
   verifyCodeService,
+  verifyPasswordCodeService,
 } from "@/lib/services/auth.service";
 import {
   ForgotPasswordFields,
@@ -18,7 +18,8 @@ import {
   VerifyCodeFields,
 } from "@/lib/schemas/auth.schema";
 import { useRouter } from "@/i18n/navigation";
-import { signIn } from "@/auth";
+import { signIn } from "next-auth/react";
+import Cookies from "js-cookie";
 
 // Register hook
 export function useRegister() {
@@ -31,26 +32,27 @@ export function useRegister() {
   // Mutation
   const { isPending, mutate: register } = useMutation({
     mutationFn: async (params: SignupFields) => {
-      // Create form data
-      const formData = new FormData();
-      formData.append("fullName", params.name);
-      formData.append("email", params.email);
-      formData.append("password", String(params.password));
-
       // Call service
-      const result = await registerService(formData);
-      console.log(result);
+      const result = await registerService(params);
+
       // Throw on error
       if (!result.status) {
         throw new Error(result.message);
       }
+
+      // save email at cookies
+      Cookies.set("pending_verification_email", params.email, {
+        expires: 1 / (24 * 12),
+        secure: true,
+        sameSite: "strict",
+      });
 
       return result;
     },
 
     onSuccess: () => {
       toast.success(t("register-success"));
-      router.push("/verify");
+      router.push("/auth/verify");
     },
 
     onError: (error: Error) => {
@@ -63,25 +65,24 @@ export function useRegister() {
 
 // Login hook
 export function useLogin() {
-  // Translation
   const t = useTranslations("auth");
-
-  // Router hook
   const router = useRouter();
 
-  // Mutation
   const { isPending, mutate: login } = useMutation({
     mutationFn: async (params: LoginFields) => {
-      // Call NextAuth signIn with credentials
       const result = await signIn("credentials", {
         email: params.email,
         password: params.password,
         redirect: false,
+        callbackUrl: "/",
       });
 
-      // Throw error if sign in failed
       if (result?.error) {
         throw new Error(t("login-invalid-credentials"));
+      }
+
+      if (!result?.ok) {
+        throw new Error(t("login-failed"));
       }
 
       return result;
@@ -97,7 +98,7 @@ export function useLogin() {
     },
   });
 
-  return { login, isPending };
+  return { isPending, login };
 }
 // Forgot password hook
 export function useForgotPassword() {
@@ -110,26 +111,27 @@ export function useForgotPassword() {
   // Mutation
   const { isPending, mutate: forgotPassword } = useMutation({
     mutationFn: async (params: ForgotPasswordFields) => {
-      // New form data
-      const formData = new FormData();
-
-      // Create form data
-      formData.append("email", params.email);
-
       // Result
-      const result = await forgotPasswordService(formData);
+      const result = await forgotPasswordService(params.email);
 
       // Throw error
       if (!result.status) {
         throw new Error(result.message);
       }
 
+      // save email at cookies
+      Cookies.set("pending_verification_email", params.email, {
+        expires: 1 / (24 * 12),
+        secure: true,
+        sameSite: "strict",
+      });
+
       return result;
     },
 
     onSuccess: () => {
       toast.success(t("forgot-password-success"));
-      router.push("/auth/forget-password/verify");
+      router.push("/auth/verify?type=none");
     },
 
     onError: (error: Error) => {
@@ -151,15 +153,14 @@ export function useVerifyCode() {
   // Mutation
   const { isPending, mutate: verifyCode } = useMutation({
     mutationFn: async (params: VerifyCodeFields) => {
-      // New form data
-      const formData = new FormData();
-
-      // Create form data
-      formData.append("code", params.code);
-      formData.append("email", "email");
+      // Get email
+      const email = Cookies.get("pending_verification_email");
 
       // Result
-      const result = await verifyCodeService(formData);
+      const result = await verifyCodeService({
+        code: params.code,
+        email: email || "",
+      });
 
       // Throw error
       if (!result.status) {
@@ -171,7 +172,53 @@ export function useVerifyCode() {
 
     onSuccess: () => {
       toast.success(t("verify-code-success"));
-      router.push("/auth/reset-password");
+      Cookies.remove("pending_verification_email");
+      router.push("/auth/login");
+    },
+
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
+
+  return { verifyCode, isPending };
+}
+// Verify code hook
+export function useVerifyPasswordCode() {
+  const t = useTranslations("auth");
+  const router = useRouter();
+
+  const { isPending, mutate: verifyCode } = useMutation({
+    mutationFn: async (params: VerifyCodeFields) => {
+      const email = Cookies.get("pending_verification_email");
+
+      const result = await verifyPasswordCodeService({
+        code: params.code,
+        email: email || "",
+      });
+
+      if (!result.status) {
+        throw new Error(result.message);
+      }
+
+      Cookies.set("pending_verification_email", email || "", {
+        expires: 1 / (24 * 12),
+        secure: true,
+        sameSite: "strict",
+      });
+
+      Cookies.set("reset_token", result.result.resetToken, {
+        expires: 1 / (24 * 12),
+        secure: true,
+        sameSite: "strict",
+      });
+
+      return result;
+    },
+
+    onSuccess: () => {
+      toast.success(t("verify-code-success"));
+      router.push("/auth/password/reset");
     },
 
     onError: (error: Error) => {
@@ -182,30 +229,22 @@ export function useVerifyCode() {
   return { verifyCode, isPending };
 }
 
-// Reset password hook
 export function useResetPassword() {
-  // Translation
   const t = useTranslations("auth");
-
-  // Router hook
   const router = useRouter();
 
-  // Mutation
   const { isPending, mutate: resetPassword } = useMutation({
     mutationFn: async (params: ResetPasswordFields) => {
-      // New form data
-      const formData = new FormData();
+      const email = Cookies.get("pending_verification_email") || "";
+      const resetToken = Cookies.get("reset_token") || "";
 
-      // Create form data
-      formData.append("password", String(params.password));
-      formData.append("confirmPassword", String(params.confirmPassword));
-      formData.append("email", String(params.password));
-      formData.append("resetToken", String(params.confirmPassword));
+      const result = await resetPasswordService({
+        email,
+        resetToken,
+        newPassword: params.password,
+        confirmPassword: params.confirmPassword,
+      });
 
-      // Result
-      const result = await resetPasswordService(formData);
-
-      // Throw error
       if (!result.status) {
         throw new Error(result.message);
       }
@@ -214,6 +253,9 @@ export function useResetPassword() {
     },
 
     onSuccess: () => {
+      Cookies.remove("pending_verification_email");
+      Cookies.remove("reset_token");
+
       toast.success(t("reset-password-success"));
       router.push("/auth/login");
     },

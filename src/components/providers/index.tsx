@@ -3,6 +3,7 @@ import ReactQueryProvider from "./components/react-query.provider";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "sonner";
 import { NextIntlClientProvider } from "next-intl";
+import SessionProvider from "./components/session-provider";
 
 interface ProvidersProps {
   children: React.ReactNode;
@@ -12,7 +13,8 @@ export default function Providers({ children }: ProvidersProps) {
   return (
     <ThemeProvider
       attribute="class"
-      defaultTheme="light"
+      defaultTheme="dark"
+      forcedTheme="dark"
       scriptProps={{ async: true }}
       value={{
         light: "light",
@@ -22,7 +24,9 @@ export default function Providers({ children }: ProvidersProps) {
       <NuqsAdapter>
         <Toaster />
         <NextIntlClientProvider>
-          <ReactQueryProvider>{children}</ReactQueryProvider>
+          <SessionProvider>
+            <ReactQueryProvider>{children}</ReactQueryProvider>
+          </SessionProvider>
         </NextIntlClientProvider>
       </NuqsAdapter>
     </ThemeProvider>

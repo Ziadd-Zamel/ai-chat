@@ -1,27 +1,34 @@
-"use client";
-
 import * as React from "react";
-
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarHeader,
   SidebarRail,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import SidebarCustomHeader from "./sidebar-header";
+import SidebarChatList from "./sidebar-chat-list";
+import SidebarUserFooter from "./sidebar-user-footer";
+import { Session } from "next-auth";
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
+  session: Session | null;
+};
+
+export async function AppSidebar({ session, ...props }: AppSidebarProps) {
+  const isLoggedIn = !!session;
+
   return (
-    <Sidebar side="right" collapsible="icon" {...props}>
-      <div className="py-6 px-3">
+    <Sidebar collapsible="icon" {...props}>
+      <div className="flex flex-col h-full py-4 px-3 gap-2">
         <SidebarCustomHeader />
-        <SidebarContent></SidebarContent>
-        <SidebarFooter></SidebarFooter>
+        <SidebarContent className="flex-1 overflow-hidden p-0">
+          <SidebarChatList isLoggedIn={isLoggedIn} />
+        </SidebarContent>
+        <SidebarFooter className="p-0">
+          <SidebarUserFooter session={session} />
+        </SidebarFooter>
       </div>
+      <SidebarRail />
     </Sidebar>
   );
 }

@@ -44,7 +44,19 @@
     "verify-code-title": "التحقق من الرمز",
     "back-to-login-text": "تتذكر كلمة المرور؟",
     "back-to-login-link": "العودة لتسجيل الدخول",
-    "reset-password-title": "إعادة تعيين كلمة المرور"
+    "reset-password-title": "إعادة تعيين كلمة المرور",
+    "verify-code-sent-to": "تم إرسال رمز التحقق إلى",
+    "password-uppercase": "كلمة المرور يجب أن تحتوي على حرف كبير واحد على الأقل",
+    "password-lowercase": "كلمة المرور يجب أن تحتوي على حرف صغير واحد على الأقل",
+    "password-number": "كلمة المرور يجب أن تحتوي على رقم واحد على الأقل",
+    "password-special": "كلمة المرور يجب أن تحتوي على رمز خاص واحد على الأقل",
+    "verifying": "جاري التحقق",
+    "signing-up": "جارٍ التسجيل...",
+    "logging-in": "جارٍ تسجيل الدخول...",
+    "login-invalid-credentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+    "login-failed": "فشل تسجيل الدخول، يرجى المحاولة مرة أخرى",
+    "sending": "جارٍ الإرسال...",
+    "resetting": "جارٍ إعادة التعيين..."
   },
   "header": {
     "home": "الصفحة الرئيسية",
@@ -52,9 +64,9 @@
     "contact": "تواصل معنا",
     "login": "تسجيل الدخول",
     "register": "إنشاء حساب",
-    "languageSwitcherLabel": "اللغة"
+    "languageSwitcherLabel": "اللغة",
+    "logout": "تسجيل الخروج"
   },
-
   "comingSoon": {
     "badge": "قريباً",
     "title-line1": "شيء كبير",
@@ -69,5 +81,30 @@
     "home-title": "Tuwaiq Intelligent Assistant | مساعد ذكاء اصطناعي ومنصة إنشاء شات بوت للمواقع",
     "home-description": "Tuwaiq Intelligent Assistant منصة ذكاء اصطناعي للمحادثات الذكية وإنشاء الشات بوت للمواقع. تواصل مع مساعد ذكي وأنشئ شات بوت لموقعك لخدمة العملاء والدعم والتفاعل مع الزوار.",
     "home-keywords": "Tuwaiq Intelligent Assistant, طويق الذكي, مساعد ذكاء اصطناعي, شات بوت, شات بوت للمواقع, إنشاء شات بوت, منصة ذكاء اصطناعي, دردشة ذكية, بوت خدمة العملاء"
+  },
+  "chat": {
+    "brandName": "توان AI",
+    "newChat": "إنشاء محادثة جديدة",
+    "expandSidebar": "توسيع الشريط الجانبي",
+    "collapseSidebar": "طي الشريط الجانبي",
+    "recentChats": "المحادثات الأخيرة",
+    "welcomeTitle": "مرحبًا، ما الذي تريد البدء به؟",
+    "welcomeSubtitle": "ابدأ محادثتك الذكية أنشئ حسابك في توان واكتشف تجربة AI أبسط وأسرع",
+    "startNow": "ابدأ الآن",
+    "inputPlaceholder": "اسأل عن أي شيء...",
+    "noChats": "لا يوجد محادثات"
+  },
+  "apps": {
+    "name-required": "الاسم مطلوب",
+    "fallback-answer-required": "الإجابة الاحتياطية مطلوبة",
+    "question-required": "السؤال مطلوب",
+    "answer-required": "الإجابة مطلوبة",
+    "qa-pairs-required": "يجب إضافة سؤال وإجابة واحدة على الأقل",
+    "expiry-days-required": "عدد أيام الانتهاء مطلوب",
+    "expiry-days-positive": "يجب أن يكون عدد أيام الانتهاء رقماً موجباً",
+    "reservation-rules-required": "قواعد الحجز مطلوبة",
+    "reservation-fields-required": "يجب اختيار حقل واحد على الأقل",
+    "create-qna-app-success": "تم إنشاء تطبيق الأسئلة والأجوبة بنجاح",
+    "create-booking-app-success": "تم إنشاء تطبيق الحجز بنجاح"
   }
 }

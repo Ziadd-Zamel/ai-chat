@@ -8,6 +8,7 @@ declare module "next-auth" {
     };
     accessToken: string;
     refreshToken: string;
+    expiresAt: string;
   }
 }
 
@@ -17,5 +18,6 @@ declare module "next-auth/jwt" {
     email: string;
     accessToken: string;
     refreshToken: string;
+    expiresAt: string;
   }
 }

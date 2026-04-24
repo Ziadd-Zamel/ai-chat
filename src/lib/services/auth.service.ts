@@ -1,52 +1,80 @@
 "use server";
 
+import { SignupFields } from "../schemas/auth.schema";
+
 // Register service
-export async function registerService(formData: FormData) {
+export async function registerService(body: SignupFields) {
   // Response
   const response = await fetch(`${process.env.Basic_URL}/auth/register`, {
     method: "POST",
-    body: formData,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      fullName: body.name,
+      email: body.email,
+      password: body.password,
+    }),
   });
 
   // Result
-  console.log("responseresponse", response);
   const result = await response.json();
-  console.log(result);
+
   // Return error
   if (!response.ok) {
     return { status: false, success: false, message: result?.message };
   }
 
-  return result;
+  return { status: true, message: result?.message };
 }
 
 // Login service
-export async function loginService(formData: FormData) {
+export async function loginService({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) {
   // Response
   const response = await fetch(`${process.env.Basic_URL}/auth/login`, {
     method: "POST",
-    body: formData,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: email,
+      password: password,
+    }),
   });
 
   // Result
   const result = await response.json();
 
-  // Return error
+  // Return
   if (!response.ok) {
     return { status: false, success: false, message: result?.message };
   }
 
-  return result;
+  return { status: true, message: result?.message, result: result };
 }
 
 // Forgot password service
-export async function forgotPasswordService(formData: FormData) {
+export async function forgotPasswordService(email: string) {
   // Response
   const response = await fetch(
     `${process.env.Basic_URL}/auth/forgot-password`,
     {
       method: "POST",
-      body: formData,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+      }),
     },
   );
 
@@ -58,15 +86,28 @@ export async function forgotPasswordService(formData: FormData) {
     return { status: false, success: false, message: result?.message };
   }
 
-  return result;
+  return { status: true, message: result?.message, result: result };
 }
 
 // Verify code service
-export async function verifyCodeService(formData: FormData) {
+export async function verifyCodeService({
+  code,
+  email,
+}: {
+  code: string;
+  email: string;
+}) {
   // Response
   const response = await fetch(`${process.env.Basic_URL}/auth/verify-email`, {
     method: "POST",
-    body: formData,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: email,
+      code: code,
+    }),
   });
 
   // Result
@@ -77,24 +118,76 @@ export async function verifyCodeService(formData: FormData) {
     return { status: false, success: false, message: result?.message };
   }
 
-  return result;
+  return { status: true, message: result?.message };
+}
+
+export async function verifyPasswordCodeService({
+  code,
+  email,
+}: {
+  code: string;
+  email: string;
+}) {
+  // Response
+  const response = await fetch(
+    `${process.env.Basic_URL}/auth/verify-reset-code`,
+    {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        code: code,
+      }),
+    },
+  );
+
+  // Result
+  const result = await response.json();
+
+  // Return error
+  if (!response.ok) {
+    return { status: false, success: false, message: result?.message };
+  }
+
+  return { status: true, message: result?.message, result: result };
 }
 
 // Reset password service
-export async function resetPasswordService(formData: FormData) {
-  // Response
+interface ResetPasswordParams {
+  email: string;
+  resetToken: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+export async function resetPasswordService({
+  email,
+  resetToken,
+  newPassword,
+  confirmPassword,
+}: ResetPasswordParams) {
   const response = await fetch(`${process.env.Basic_URL}/auth/reset-password`, {
     method: "POST",
-    body: formData,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email,
+      resetToken,
+      newPassword,
+      confirmPassword,
+    }),
   });
 
-  // Result
   const result = await response.json();
 
-  // Return error
   if (!response.ok) {
-    return { status: false, success: false, message: result?.message };
+    return { status: false, message: result?.message };
   }
 
-  return result;
+  return { status: true, message: result?.message };
 }

@@ -44,7 +44,19 @@
     "verify-code-title": "Verify Code",
     "back-to-login-text": "Remember your password?",
     "back-to-login-link": "Back to login",
-    "reset-password-title": "Reset Password"
+    "reset-password-title": "Reset Password",
+    "verify-code-sent-to": "Verification code sent to",
+    "password-uppercase": "Password must contain at least one uppercase letter",
+    "password-lowercase": "Password must contain at least one lowercase letter",
+    "password-number": "Password must contain at least one number",
+    "password-special": "Password must contain at least one special character",
+    "verifying": "Verifying",
+    "signing-up": "Signing up...",
+    "logging-in": "Logging in...",
+    "login-invalid-credentials": "Invalid email or password",
+    "login-failed": "Login failed, please try again",
+    "sending": "Sending...",
+    "resetting": "Resetting..."
   },
   "header": {
     "home": "Home",
@@ -52,7 +64,8 @@
     "contact": "Contact Us",
     "login": "Login",
     "register": "Register",
-    "languageSwitcherLabel": "Language"
+    "languageSwitcherLabel": "Language",
+    "logout": "Logout"
   },
   "comingSoon": {
     "badge": "Coming Soon",
@@ -68,5 +81,30 @@
     "home-title": "Tuwaiq Intelligent Assistant | AI Chat Assistant & Website Chatbot Builder",
     "home-description": "Tuwaiq Intelligent Assistant is an AI platform for smart conversations and website chatbot creation. Chat with an intelligent assistant and build AI chatbots for your business, customer support, and website visitors.",
     "home-keywords": "Tuwaiq Intelligent Assistant, Tuwaiq AI, AI assistant, AI chatbot, website chatbot, chatbot builder, conversational AI, customer support chatbot, Saudi AI platform"
+  },
+  "chat": {
+    "brandName": "Tawan AI",
+    "newChat": "New conversation",
+    "expandSidebar": "Expand sidebar",
+    "collapseSidebar": "Collapse sidebar",
+    "recentChats": "Recent chats",
+    "welcomeTitle": "Hello, what would you like to get started with?",
+    "welcomeSubtitle": "Start your smart conversation, create your account on Twan, and discover a simpler and faster AI experience.",
+    "startNow": "Start Now",
+    "inputPlaceholder": "Ask anything...",
+    "noChats": "No Chats "
+  },
+  "apps": {
+    "name-required": "Name is required",
+    "fallback-answer-required": "Fallback answer is required",
+    "question-required": "Question is required",
+    "answer-required": "Answer is required",
+    "qa-pairs-required": "At least one Q&A pair is required",
+    "expiry-days-required": "Expiry days is required",
+    "expiry-days-positive": "Expiry days must be a positive number",
+    "reservation-rules-required": "Reservation rules are required",
+    "reservation-fields-required": "At least one field is required",
+    "create-qna-app-success": "QnA app created successfully",
+    "create-booking-app-success": "Booking app created successfully"
   }
 }

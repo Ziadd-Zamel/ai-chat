@@ -72,9 +72,17 @@ export default function ForgotPasswordForm() {
         <Button
           type="submit"
           variant="default"
+          disabled={isPending}
           className="w-full h-9 sm:h-12 mt-5"
         >
-          {t("forgot-password-submit")}
+          {isPending ? (
+            <span className="flex items-center gap-2">
+              <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              {t("sending")}
+            </span>
+          ) : (
+            t("forgot-password-submit")
+          )}
         </Button>
       </form>
     </Form>
