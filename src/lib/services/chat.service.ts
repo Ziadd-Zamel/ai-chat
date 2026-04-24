@@ -1,4 +1,3 @@
-// Create a new chat — title is optional, token is optional (public endpoint)
 export async function createChatService({
   title,
   token,
@@ -8,6 +7,7 @@ export async function createChatService({
 }) {
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/chats`, {
     method: "POST",
+    credentials: "include", // ← ADD THIS so the pg_guest cookie is stored on creation
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -15,10 +15,8 @@ export async function createChatService({
     },
     body: JSON.stringify({ title }),
   });
-  console.log("tokentokentoken", token);
-  console.log("tokentokentoken", response);
+
   const result = await response.json();
-  console.log("tokentokentoken", result);
 
   if (!response.ok) {
     return { status: false, success: false, message: result?.message };
@@ -26,6 +24,7 @@ export async function createChatService({
 
   return { status: true, message: result?.message, result };
 }
+
 export async function sendChatMessageService({
   chatId,
   text,
@@ -39,10 +38,13 @@ export async function sendChatMessageService({
   token?: string;
   onChunk?: (chunk: string) => void;
 }) {
+  // ← REMOVED unused guestToken dead code
+
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/chats/send`,
     {
       method: "POST",
+      credentials: "include",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -57,7 +59,6 @@ export async function sendChatMessageService({
     return { status: false, success: false, message: result?.message };
   }
 
-  // Read the SSE stream
   const reader = response.body?.getReader();
   const decoder = new TextDecoder();
   let fullText = "";
@@ -71,24 +72,19 @@ export async function sendChatMessageService({
     if (done) break;
 
     const raw = decoder.decode(value, { stream: true });
-
-    // Each SSE line looks like: data: {...}
     const lines = raw.split("\n").filter((l) => l.startsWith("data: "));
 
     for (const line of lines) {
       try {
-        const json = JSON.parse(line.slice(6)); // strip "data: "
+        const json = JSON.parse(line.slice(6));
 
         if (json.type === "chunk") {
           fullText += json.text;
-          onChunk?.(json.text); // stream chunk to UI in real-time
+          onChunk?.(json.text);
         }
 
         if (json.type === "done") {
-          return {
-            status: true,
-            result: { message: fullText },
-          };
+          return { status: true, result: { message: fullText } };
         }
       } catch {
         // malformed line, skip
